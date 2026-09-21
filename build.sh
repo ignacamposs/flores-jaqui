@@ -13,7 +13,7 @@ body_part="$(sed -n '/<\/style>/,$p' src/page.html | tail -n +2)"
   echo '<head>'
   echo '<meta charset="utf-8">'
   echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-  echo '<meta name="description" content="Un ramo de 21 flores amarillas para Jaqui. 21 de septiembre.">'
+  echo '<meta name="description" content="Un ramo de 21 flores amarillas para mi China. 21 de septiembre.">'
   echo '<meta name="theme-color" content="#0E1E16">'
   echo '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8C%BC%3C/text%3E%3C/svg%3E">'
   echo "$head_part"
