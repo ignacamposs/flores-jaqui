@@ -54,9 +54,13 @@
   .lede{margin:0;max-width:56ch;color:#D6E2CE}
   .stage{margin:clamp(20px,5vw,34px) 0 0;display:flex;flex-direction:column;align-items:center;gap:18px}
   .bouquet{width:100%;max-width:600px;height:auto;display:block;overflow:visible}
-  .flower{cursor:pointer;outline:none}
+  .flower{outline:none}
+  .flower.motivo{cursor:pointer}
   .flower .stem{stroke-linecap:round}
-  .flower:hover .head,.flower:focus-visible .head{filter:brightness(1.12) drop-shadow(0 0 10px rgba(255,197,49,.55))}
+  .flower.motivo:hover .head,.flower.motivo:focus-visible .head{filter:brightness(1.12) drop-shadow(0 0 14px rgba(255,226,122,.85))}
+  .flower.motivo .head{animation:latir 3.6s ease-in-out infinite}
+  .flower.motivo.abierta .head{animation:none;filter:drop-shadow(0 0 11px rgba(255,197,49,.62))}
+  @keyframes latir{0%,100%{filter:drop-shadow(0 0 2px rgba(255,197,49,.30))}50%{filter:drop-shadow(0 0 13px rgba(255,226,122,.80))}}
   .flower:focus-visible{outline:2px dashed var(--gold-soft);outline-offset:4px;border-radius:8px}
   .bloom{animation:bloom .85s cubic-bezier(.18,.86,.28,1) both}
   .bloom .stem{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .75s ease-out both}
@@ -114,6 +118,7 @@
   footer .dot{color:var(--gold)}
   @media (prefers-reduced-motion: reduce){
     .sky{display:none}
+    .flower.motivo .head{animation:none;filter:drop-shadow(0 0 8px rgba(255,197,49,.5))}
     .bloom,.bloom .stem{animation:none}
     button{transition:none}
   }
@@ -126,10 +131,10 @@
 
   <h1>Un ramo de <em>flores amarillas</em> para mi China</h1>
 
-  <p class="lede">Hoy no llegué a comprarlas. Así que las planté acá, una por una, y les puse un motivo a cada una. Estas tienen una ventaja sobre las de la florería: no se marchitan nunca.</p>
+  <p class="lede">Hoy no llegué a comprarlas. Así que las planté acá, una por una: veintiuna flores, y cuatro de ellas con algo escrito adentro. Tienen una ventaja sobre las de la florería: no se marchitan nunca.</p>
 
   <section class="stage" aria-label="El ramo">
-    <svg class="bouquet" viewBox="0 172 600 420" role="img" aria-labelledby="bouquet-title" id="svg">
+    <svg class="bouquet" viewBox="0 172 600 420" role="group" aria-labelledby="bouquet-title" id="svg">
       <title id="bouquet-title">Ramo de flores amarillas</title>
       <defs>
         <radialGradient id="glow" cx="50%" cy="42%" r="52%">
@@ -149,18 +154,18 @@
     </svg>
 
     <div class="controls">
-      <button id="add" type="button">Sumar una flor</button>
-      <p class="count" id="count"><b>7</b> de 21 flores</p>
+      <button id="add" type="button">Abrir una flor</button>
+      <p class="count" id="count"><b>0</b> de 4 motivos</p>
     </div>
 
-    <p class="note idle" id="note" aria-live="polite">Cada flor guarda un motivo. Basta con tocar una.</p>
-    <p class="finale" id="finale" hidden>Ramo completo: veintiuna flores amarillas, para un 21 de septiembre y para todos los que vienen.</p>
+    <p class="note idle" id="note" aria-live="polite">Cuatro flores del ramo tienen algo escrito. Se abren de a una.</p>
+    <p class="finale" id="finale" hidden>Cuatro motivos, veintiuna flores y un 21 de septiembre. Y todos los que vienen.</p>
   </section>
 
   <article class="letter">
     <h2>China,</h2>
     <p>La tradición manda flores de verdad, de esas que se acomodan en un jarrón y perfuman la cocina tres días. Ese ramo te lo debo, y te lo voy a dar.</p>
-    <p>Mientras tanto queda este: veintiuna flores amarillas que se pueden abrir todas las veces que quieras, a cualquier hora, incluso en invierno. Siempre van a estar abiertas, siempre van a ser amarillas y siempre van a querer decir lo mismo.</p>
+    <p>Mientras tanto queda este: veintiuna flores amarillas que se pueden abrir todas las veces que quieras, a cualquier hora, incluso en invierno. Siempre van a estar ahí, siempre van a ser amarillas y las cuatro que tienen algo escrito siempre van a decir lo mismo.</p>
     <p>Feliz día de la primavera, mi amor.</p>
     <p class="sign">Te quiero, China.<br>Ignacio<small>21 · 09</small></p>
   </article>
@@ -174,32 +179,18 @@
 <script>
 (function(){
   var NS = "http://www.w3.org/2000/svg";
-  var TOTAL = 21, START = 7, KEY = "flores-jaqui:v1";
+  var TOTAL = 21, KEY = "flores-jaqui:v2";
   var OX = 300, OY = 462;
 
-  var REASONS = [
-    "Porque me alegrás los días.",
-    "Por tu sonrisa hermosa.",
-    "Por la paciencia que me tenés.",
-    "Porque tu abrazo sigue siendo mi lugar preferido.",
-    "Por tu risa cuando algo te agarra desprevenida.",
-    "Por el olor de tu pelo recién lavado.",
-    "Por las charlas que empiezan en la cocina y terminan a las tres.",
-    "Por tu manera de cantar cuando no te escucha nadie.",
-    "Por tus manos frías y tu corazón enorme.",
-    "Porque con vos hasta los martes valen la pena.",
-    "Por los mensajes de las dos de la mañana.",
-    "Por tu forma de contar las películas, con spoilers y todo.",
-    "Por tu cara de recién despierta.",
-    "Por los planes que hacemos y nunca cumplimos.",
-    "Por tu talento para hacerme reír a destiempo.",
-    "Por las canciones que de tanto escucharlas ya son nuestras.",
-    "Por tu letra chueca en los papelitos.",
-    "Por tu terquedad, también. Sobre todo por tu terquedad.",
-    "Porque la primavera, desde hace rato, tiene tu cara.",
-    "Porque sí. Porque siempre.",
-    "Porque por vos sigo acá."
+  // Las cuatro flores que guardan algo escrito, repartidas por todo el ramo.
+  var MOTIVOS = [
+    { slot: 0,  texto: "Porque me alegrás los días." },
+    { slot: 4,  texto: "Por la paciencia que me tenés." },
+    { slot: 9,  texto: "Por tu sonrisa hermosa." },
+    { slot: 15, texto: "Porque por vos sigo acá." }
   ];
+  var porSlot = {};
+  MOTIVOS.forEach(function(m, k){ porSlot[m.slot] = k; });
 
   var garden = document.getElementById("garden");
   var svg = document.getElementById("svg");
@@ -253,16 +244,21 @@
     return g;
   }
 
-  function plant(i, animate, delay){
+  function plant(i, delay){
     var s = SLOTS[i];
     var x = OX + Math.sin(s.a) * s.r * 1.1;
     var y = OY - Math.cos(s.a) * s.r * 0.95;
     var cx = OX + (x - OX) * 0.2;
     var cy = (OY + y) / 2 + 24;
+    var esMotivo = porSlot.hasOwnProperty(i);
 
-    var g = el("g", { "class":"flower", tabindex:"0", role:"button" });
-    g.setAttribute("aria-label", "Flor " + (i + 1) + ". " + REASONS[i]);
-    g.dataset.i = i;
+    var g = el("g", { "class": "flower" + (esMotivo ? " motivo" : "") });
+    if (esMotivo){
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", "Una de las cuatro flores escritas. Abrir.");
+      g.dataset.m = porSlot[i];
+    }
 
     g.appendChild(el("path", {
       "class":"stem", pathLength:"1", fill:"none",
@@ -270,75 +266,95 @@
       d: "M " + OX + " " + OY + " Q " + cx.toFixed(1) + " " + cy.toFixed(1) + " " + x.toFixed(1) + " " + y.toFixed(1)
     }));
 
-    var lt = 0.58;
+    var lt = 0.40 + rnd(i + 17) * 0.32;
     var lx = (1 - lt) * (1 - lt) * OX + 2 * (1 - lt) * lt * cx + lt * lt * x;
     var ly = (1 - lt) * (1 - lt) * OY + 2 * (1 - lt) * lt * cy + lt * lt * y;
     g.appendChild(el("ellipse", {
-      cx:0, cy:0, rx:15, ry:6, fill:"#3C7A4B", opacity:.9,
+      cx:0, cy:0, rx:(13 + rnd(i + 23) * 5).toFixed(1), ry:6, fill:"#3C7A4B", opacity:.9,
       transform:"translate(" + lx.toFixed(1) + "," + ly.toFixed(1) + ") rotate(" + (s.a * 45 + (s.a < 0 ? -20 : 20)).toFixed(1) + ")"
     }));
 
-    var scale = (0.8 + (1 - Math.abs(s.a) / 1.35) * 0.28 + rnd(i + 3) * 0.1).toFixed(2);
+    var escala = (0.8 + (1 - Math.abs(s.a) / 1.35) * 0.28 + rnd(i + 3) * 0.1) * (esMotivo ? 1.12 : 1);
     var h = head(i % 3, i);
-    h.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ") rotate(" + ((rnd(i + 9) - 0.5) * 26).toFixed(1) + ") scale(" + scale + ")");
+    h.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ") rotate(" + ((rnd(i + 9) - 0.5) * 26).toFixed(1) + ") scale(" + escala.toFixed(2) + ")");
     g.appendChild(h);
 
-    if (animate && !reduce){
+    if (!reduce){
       g.classList.add("bloom");
       g.style.animationDelay = delay + "ms";
       var stem = g.querySelector(".stem");
       if (stem) stem.style.animationDelay = delay + "ms";
     }
     garden.appendChild(g);
-    return g;
   }
 
-  function say(text, handwritten){
+  for (var j = 0; j < TOTAL; j++) plant(j, j * 95);
+
+  function say(text, manuscrito){
     noteEl.classList.add("swap");
     window.setTimeout(function(){
       noteEl.textContent = text;
-      noteEl.classList.toggle("idle", !handwritten);
+      noteEl.classList.toggle("idle", !manuscrito);
       noteEl.classList.remove("swap");
     }, reduce ? 0 : 240);
   }
 
-  var planted = 0;
+  var abiertas = {}, total = 0;
 
-  function grow(i, animate, delay){
-    plant(i, animate, delay);
-    planted = Math.max(planted, i + 1);
-    countEl.innerHTML = "<b>" + planted + "</b> de " + TOTAL + " flores";
-    if (planted >= TOTAL){
+  function marcar(k){
+    var f = garden.querySelector('.flower.motivo[data-m="' + k + '"]');
+    if (f) f.classList.add("abierta");
+  }
+
+  function contar(){
+    countEl.innerHTML = "<b>" + total + "</b> de 4 motivos";
+    if (total >= MOTIVOS.length){
       btn.disabled = true;
-      btn.textContent = "El ramo está completo";
+      btn.textContent = "Las cuatro están abiertas";
       finale.hidden = false;
     }
   }
 
-  var saved = START;
+  function abrir(k, contarlo){
+    if (!abiertas[k]){
+      abiertas[k] = true;
+      total++;
+      marcar(k);
+      contar();
+      if (contarlo !== false){
+        try { window.localStorage.setItem(KEY, JSON.stringify(Object.keys(abiertas))); } catch (e) {}
+      }
+    }
+    say(MOTIVOS[k].texto, true);
+  }
+
+  function siguiente(){
+    for (var k = 0; k < MOTIVOS.length; k++) if (!abiertas[k]) return k;
+    return -1;
+  }
+
   try {
     var raw = window.localStorage.getItem(KEY);
-    if (raw) saved = Math.min(TOTAL, Math.max(START, parseInt(raw, 10) || START));
+    if (raw) JSON.parse(raw).forEach(function(k){
+      k = +k;
+      if (!abiertas[k] && MOTIVOS[k]){ abiertas[k] = true; total++; marcar(k); }
+    });
   } catch (e) {}
-
-  for (var j = 0; j < saved; j++) grow(j, true, j * 130);
+  contar();
 
   btn.addEventListener("click", function(){
-    if (planted >= TOTAL) return;
-    var i = planted;
-    grow(i, true, 0);
-    say(REASONS[i], true);
-    try { window.localStorage.setItem(KEY, String(planted)); } catch (e) {}
+    var k = siguiente();
+    if (k >= 0) abrir(k);
   });
 
   svg.addEventListener("click", function(ev){
-    var f = ev.target.closest(".flower");
-    if (f) say(REASONS[+f.dataset.i], true);
+    var f = ev.target.closest(".flower.motivo");
+    if (f) abrir(+f.dataset.m);
   });
   svg.addEventListener("keydown", function(ev){
     if (ev.key !== "Enter" && ev.key !== " ") return;
-    var f = ev.target.closest(".flower");
-    if (f){ ev.preventDefault(); say(REASONS[+f.dataset.i], true); }
+    var f = ev.target.closest(".flower.motivo");
+    if (f){ ev.preventDefault(); abrir(+f.dataset.m); }
   });
 
   if (!reduce){
