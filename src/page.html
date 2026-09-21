@@ -1,0 +1,357 @@
+<title>Flores amarillas para Jaqui</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Gloock&family=Karla:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  /* Una sola atmósfera, elegida a propósito: jardín de noche, flores encendidas. */
+  :root{
+    --night:#0E1E16;
+    --night-2:#152A1F;
+    --panel:#193023;
+    --edge:#2A4633;
+    --gold:#FFC531;
+    --gold-soft:#FFE27A;
+    --amber:#E58E14;
+    --leaf:#4E8C5A;
+    --cream:#EDF2E4;
+    --muted:#9BB198;
+    --paper:#EADDBE;
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--cream);
+    font-family:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    background-image:
+      radial-gradient(120% 70% at 50% 0%, #1B3527 0%, rgba(27,53,39,0) 60%),
+      radial-gradient(90% 50% at 50% 100%, #142A1D 0%, rgba(20,42,29,0) 70%);
+    background-attachment:fixed;
+  }
+  .sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .petal{position:absolute;top:-8%;width:11px;height:14px;border-radius:60% 40% 55% 45%;background:var(--gold);opacity:.22;animation:drift linear infinite}
+  @keyframes drift{
+    0%{transform:translate3d(0,-10vh,0) rotate(0deg)}
+    100%{transform:translate3d(6vw,112vh,0) rotate(420deg)}
+  }
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding-inline:20px;padding-block:clamp(36px,7vw,72px) 56px}
+  .eyebrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 14px}
+  .eyebrow span{white-space:nowrap}
+  .eyebrow span:last-child{color:var(--muted);letter-spacing:.14em}
+  .rule{flex:0 0 26px;height:1px;background:var(--gold);opacity:.6}
+  h1{
+    font-family:"Gloock",Georgia,serif;
+    font-weight:400;
+    font-size:clamp(38px,9vw,64px);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    margin:0 0 18px;
+    text-wrap:balance;
+  }
+  h1 em{font-style:normal;color:var(--gold)}
+  .lede{margin:0;max-width:56ch;color:#D6E2CE}
+  .stage{margin:clamp(20px,5vw,34px) 0 0;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .bouquet{width:100%;max-width:600px;height:auto;display:block;overflow:visible}
+  .flower{cursor:pointer;outline:none}
+  .flower .stem{stroke-linecap:round}
+  .flower:hover .head,.flower:focus-visible .head{filter:brightness(1.12) drop-shadow(0 0 10px rgba(255,197,49,.55))}
+  .flower:focus-visible{outline:2px dashed var(--gold-soft);outline-offset:4px;border-radius:8px}
+  .bloom{animation:bloom .85s cubic-bezier(.18,.86,.28,1) both}
+  .bloom .stem{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .75s ease-out both}
+  @keyframes bloom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 16px}
+  button{
+    font:inherit;font-weight:600;
+    background:var(--gold);color:#2A1A02;
+    border:none;border-radius:999px;
+    padding:13px 26px;cursor:pointer;
+    box-shadow:0 6px 22px rgba(255,197,49,.22);
+    transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+  }
+  button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(255,197,49,.3)}
+  button:active:not(:disabled){transform:translateY(0)}
+  button:disabled{background:var(--panel);color:var(--gold-soft);cursor:default;box-shadow:none;border:1px solid var(--edge)}
+  button:focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px}
+  .count{font-variant-numeric:tabular-nums;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .count b{color:var(--gold);font-weight:600}
+  .note{
+    min-height:3.4em;display:flex;align-items:center;justify-content:center;
+    text-align:center;max-width:44ch;margin:0;
+    font-family:"Caveat","Segoe Script","Bradley Hand",cursive;font-size:26px;line-height:1.3;color:var(--gold-soft);
+    transition:opacity .28s ease;
+  }
+  .note.swap{opacity:0}
+  .note.idle{font-family:"Karla",sans-serif;font-size:15px;color:var(--muted)}
+  .finale{
+    margin:6px 0 0;text-align:center;max-width:40ch;
+    font-family:"Gloock",Georgia,serif;font-size:22px;line-height:1.35;color:var(--cream);
+  }
+  .letter{
+    margin-top:clamp(42px,8vw,72px);
+    background:linear-gradient(180deg,var(--panel),var(--night-2));
+    border:1px solid var(--edge);
+    border-radius:4px 4px 18px 18px;
+    padding:clamp(26px,5vw,42px);
+    position:relative;
+  }
+  .letter::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:4px;
+    background:linear-gradient(90deg,var(--amber),var(--gold),var(--gold-soft),var(--amber));
+    border-radius:4px 4px 0 0;
+  }
+  .letter h2{
+    font-family:"Gloock",Georgia,serif;font-weight:400;font-size:clamp(24px,5vw,32px);
+    margin:0 0 18px;color:var(--gold-soft);
+  }
+  .letter p{margin:0 0 16px;max-width:60ch;color:#DEE8D6}
+  .letter p:last-of-type{margin-bottom:0}
+  .sign{font-family:"Caveat","Segoe Script","Bradley Hand",cursive;font-size:34px;line-height:1.1;color:var(--gold);margin-top:26px}
+  .sign small{display:block;font-family:"Karla",sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  footer{margin-top:40px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  footer .dot{color:var(--gold)}
+  @media (prefers-reduced-motion: reduce){
+    .sky{display:none}
+    .bloom,.bloom .stem{animation:none}
+    button{transition:none}
+  }
+</style>
+
+<div class="sky" aria-hidden="true" id="sky"></div>
+
+<main class="wrap">
+  <p class="eyebrow"><span class="rule"></span><span>21 de septiembre</span><span>· día de las flores amarillas</span></p>
+
+  <h1>Un ramo de <em>flores amarillas</em> para Jaqui</h1>
+
+  <p class="lede">Hoy no llegué a comprarlas. Así que las planté acá, una por una, y les puse un motivo a cada una. Estas tienen una ventaja sobre las de la florería: no se marchitan nunca.</p>
+
+  <section class="stage" aria-label="El ramo">
+    <svg class="bouquet" viewBox="0 172 600 420" role="img" aria-labelledby="bouquet-title" id="svg">
+      <title id="bouquet-title">Ramo de flores amarillas</title>
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="42%" r="52%">
+          <stop offset="0%" stop-color="#FFC531" stop-opacity=".15"/>
+          <stop offset="100%" stop-color="#FFC531" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="300" cy="330" rx="250" ry="200" fill="url(#glow)"/>
+      <g id="garden"></g>
+      <!-- el papel del ramo, siempre delante de los tallos -->
+      <path d="M 208 448 L 392 448 L 356 566 Q 300 578 244 566 Z" fill="#EADDBE"/>
+      <path d="M 208 448 L 300 448 L 286 572 Q 262 570 244 566 Z" fill="#D8C7A0" opacity=".55"/>
+      <path d="M 208 448 L 392 448 L 388 462 L 212 462 Z" fill="#C9B489" opacity=".5"/>
+      <path d="M 232 508 Q 300 528 368 508 L 372 494 Q 300 514 228 494 Z" fill="#E58E14"/>
+      <path d="M 288 520 q -22 22 -36 14 q 18 -2 30 -20 Z" fill="#C9770C"/>
+      <path d="M 312 520 q 22 22 36 14 q -18 -2 -30 -20 Z" fill="#C9770C"/>
+    </svg>
+
+    <div class="controls">
+      <button id="add" type="button">Sumar una flor</button>
+      <p class="count" id="count"><b>7</b> de 21 flores</p>
+    </div>
+
+    <p class="note idle" id="note" aria-live="polite">Cada flor guarda un motivo. Basta con tocar una.</p>
+    <p class="finale" id="finale" hidden>Ramo completo: veintiún flores amarillas, para un 21 de septiembre y para todos los que vienen.</p>
+  </section>
+
+  <article class="letter">
+    <h2>Jaqui,</h2>
+    <p>La tradición manda flores de verdad, de esas que se acomodan en un jarrón y perfuman la cocina tres días. Ese ramo te lo debo, y te lo voy a dar.</p>
+    <p>Mientras tanto queda este: veintiún flores amarillas que se pueden abrir todas las veces que quieras, a cualquier hora, incluso en invierno. Siempre van a estar abiertas, siempre van a ser amarillas y siempre van a querer decir lo mismo.</p>
+    <p>Feliz día de la primavera, mi amor.</p>
+    <p class="sign">Te quiero.<small>21 · 09</small></p>
+  </article>
+
+  <footer>
+    <span>Hecho a mano, flor por flor</span>
+    <span><span class="dot">✿</span> Para Jaqui</span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var NS = "http://www.w3.org/2000/svg";
+  var TOTAL = 21, START = 7, KEY = "flores-jaqui:v1";
+  var OX = 300, OY = 462;
+
+  var REASONS = [
+    "Por tu risa cuando algo te agarra desprevenida.",
+    "Por el olor de tu pelo recién lavado.",
+    "Porque tu abrazo sigue siendo mi lugar preferido.",
+    "Por las charlas que empiezan en la cocina y terminan a las tres.",
+    "Por tu manera de cantar cuando no te escucha nadie.",
+    "Por tus manos frías y tu corazón enorme.",
+    "Porque contigo hasta los martes valen la pena.",
+    "Por tu paciencia, que es casi un superpoder.",
+    "Por los mensajes de las dos de la mañana.",
+    "Por tu forma de contar las películas, con spoilers y todo.",
+    "Por tu cara de recién despierta.",
+    "Por los planes que hacemos y nunca cumplimos.",
+    "Por tu talento para hacerme reír a destiempo.",
+    "Por las canciones que de tanto escucharlas ya son nuestras.",
+    "Por tu letra chueca en los papelitos.",
+    "Por tu terquedad, también. Sobre todo por tu terquedad.",
+    "Por tu manera de escuchar, sin apurar a nadie.",
+    "Porque la primavera, desde hace rato, tiene tu cara.",
+    "Por las siestas que se hacen larguísimas.",
+    "Por todo lo que todavía nos falta.",
+    "Porque sí. Porque siempre."
+  ];
+
+  var garden = document.getElementById("garden");
+  var svg = document.getElementById("svg");
+  var noteEl = document.getElementById("note");
+  var countEl = document.getElementById("count");
+  var btn = document.getElementById("add");
+  var finale = document.getElementById("finale");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function rnd(i){ var s = Math.sin(i * 127.1 + 11.7) * 43758.5453; return s - Math.floor(s); }
+
+  var SLOTS = [];
+  for (var i = 0; i < TOTAL; i++){
+    var t = i / (TOTAL - 1);
+    var a = (-1 + 2 * t) * 1.2 + (rnd(i) - 0.5) * 0.15;
+    var r = 250 - Math.abs(a) * 70 + (rnd(i + 31) - 0.5) * 40;
+    SLOTS.push({ a: a, r: r });
+  }
+  SLOTS.sort(function(p, q){ return Math.abs(p.a) - Math.abs(q.a); });
+
+  function el(name, attrs){
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  function head(variant, seed){
+    var g = el("g", { "class": "head" });
+    var tones = ["#FFC531", "#FFD75E", "#FFB81C", "#FFE27A"];
+    var petal = tones[Math.floor(rnd(seed + 5) * 4)];
+    var p, ang;
+    if (variant === 0){
+      for (p = 0; p < 13; p++){
+        g.appendChild(el("ellipse", { cx:0, cy:-17, rx:5.4, ry:16, fill:petal, opacity:.95, transform:"rotate(" + (p * 360 / 13) + ")" }));
+      }
+      g.appendChild(el("circle", { cx:0, cy:0, r:9.5, fill:"#C06E10" }));
+      g.appendChild(el("circle", { cx:0, cy:0, r:5, fill:"#7E430E" }));
+    } else if (variant === 1){
+      for (p = 0; p < 6; p++){
+        g.appendChild(el("ellipse", { cx:0, cy:-13, rx:8.5, ry:12, fill:petal, opacity:.95, transform:"rotate(" + (p * 60 + rnd(seed) * 12) + ")" }));
+      }
+      g.appendChild(el("circle", { cx:0, cy:0, r:6.5, fill:"#E58E14" }));
+    } else {
+      for (p = 0; p < 6; p++){
+        ang = p * Math.PI / 3;
+        g.appendChild(el("circle", { cx:Math.cos(ang) * 11, cy:Math.sin(ang) * 11, r:6.8, fill:petal, opacity:.95 }));
+      }
+      g.appendChild(el("circle", { cx:0, cy:0, r:6.8, fill:petal }));
+      g.appendChild(el("circle", { cx:0, cy:0, r:3.6, fill:"#E58E14" }));
+    }
+    return g;
+  }
+
+  function plant(i, animate, delay){
+    var s = SLOTS[i];
+    var x = OX + Math.sin(s.a) * s.r * 1.1;
+    var y = OY - Math.cos(s.a) * s.r * 0.95;
+    var cx = OX + (x - OX) * 0.2;
+    var cy = (OY + y) / 2 + 24;
+
+    var g = el("g", { "class":"flower", tabindex:"0", role:"button" });
+    g.setAttribute("aria-label", "Flor " + (i + 1) + ". " + REASONS[i]);
+    g.dataset.i = i;
+
+    g.appendChild(el("path", {
+      "class":"stem", pathLength:"1", fill:"none",
+      stroke: i % 2 ? "#4E8C5A" : "#3C7A4B", "stroke-width":3.2,
+      d: "M " + OX + " " + OY + " Q " + cx.toFixed(1) + " " + cy.toFixed(1) + " " + x.toFixed(1) + " " + y.toFixed(1)
+    }));
+
+    var lt = 0.58;
+    var lx = (1 - lt) * (1 - lt) * OX + 2 * (1 - lt) * lt * cx + lt * lt * x;
+    var ly = (1 - lt) * (1 - lt) * OY + 2 * (1 - lt) * lt * cy + lt * lt * y;
+    g.appendChild(el("ellipse", {
+      cx:0, cy:0, rx:15, ry:6, fill:"#3C7A4B", opacity:.9,
+      transform:"translate(" + lx.toFixed(1) + "," + ly.toFixed(1) + ") rotate(" + (s.a * 45 + (s.a < 0 ? -20 : 20)).toFixed(1) + ")"
+    }));
+
+    var scale = (0.8 + (1 - Math.abs(s.a) / 1.35) * 0.28 + rnd(i + 3) * 0.1).toFixed(2);
+    var h = head(i % 3, i);
+    h.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ") rotate(" + ((rnd(i + 9) - 0.5) * 26).toFixed(1) + ") scale(" + scale + ")");
+    g.appendChild(h);
+
+    if (animate && !reduce){
+      g.classList.add("bloom");
+      g.style.animationDelay = delay + "ms";
+      var stem = g.querySelector(".stem");
+      if (stem) stem.style.animationDelay = delay + "ms";
+    }
+    garden.appendChild(g);
+    return g;
+  }
+
+  function say(text, handwritten){
+    noteEl.classList.add("swap");
+    window.setTimeout(function(){
+      noteEl.textContent = text;
+      noteEl.classList.toggle("idle", !handwritten);
+      noteEl.classList.remove("swap");
+    }, reduce ? 0 : 240);
+  }
+
+  var planted = 0;
+
+  function grow(i, animate, delay){
+    plant(i, animate, delay);
+    planted = Math.max(planted, i + 1);
+    countEl.innerHTML = "<b>" + planted + "</b> de " + TOTAL + " flores";
+    if (planted >= TOTAL){
+      btn.disabled = true;
+      btn.textContent = "El ramo está completo";
+      finale.hidden = false;
+    }
+  }
+
+  var saved = START;
+  try {
+    var raw = window.localStorage.getItem(KEY);
+    if (raw) saved = Math.min(TOTAL, Math.max(START, parseInt(raw, 10) || START));
+  } catch (e) {}
+
+  for (var j = 0; j < saved; j++) grow(j, true, j * 130);
+
+  btn.addEventListener("click", function(){
+    if (planted >= TOTAL) return;
+    var i = planted;
+    grow(i, true, 0);
+    say(REASONS[i], true);
+    try { window.localStorage.setItem(KEY, String(planted)); } catch (e) {}
+  });
+
+  svg.addEventListener("click", function(ev){
+    var f = ev.target.closest(".flower");
+    if (f) say(REASONS[+f.dataset.i], true);
+  });
+  svg.addEventListener("keydown", function(ev){
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    var f = ev.target.closest(".flower");
+    if (f){ ev.preventDefault(); say(REASONS[+f.dataset.i], true); }
+  });
+
+  if (!reduce){
+    var sky = document.getElementById("sky");
+    for (var p = 0; p < 9; p++){
+      var d = document.createElement("div");
+      d.className = "petal";
+      d.style.left = (rnd(p + 60) * 96).toFixed(1) + "%";
+      d.style.animationDuration = (16 + rnd(p + 70) * 12).toFixed(1) + "s";
+      d.style.animationDelay = (-rnd(p + 80) * 20).toFixed(1) + "s";
+      d.style.opacity = (0.14 + rnd(p + 90) * 0.16).toFixed(2);
+      sky.appendChild(d);
+    }
+  }
+})();
+</script>
